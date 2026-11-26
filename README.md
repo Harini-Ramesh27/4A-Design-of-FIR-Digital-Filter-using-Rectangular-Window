@@ -7,44 +7,45 @@
 PC installed with SCILAB. 
 
 # PROGRAM: 
+clear;
+close;
 
-clc ;
-close ;
-M=input('Enter the Odd Filter Length =');
-Wc=input('Enter the Digital Cut off frequency =');
-alpha= (M -1)/2 // Center Value
-for n = 1:M
-    if (n ==alpha+1)
-        hd(n) = Wc/ %pi ;
-        else
-        hd(n) = sin(Wc *((n -1)-alpha)) /(((n -1)-alpha)*%pi);
+N = 21;               
+wc = %pi / 2;         
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = wc / %pi;
+    else
+        hd(n+1) = sin(wc * (n - alpha)) / (%pi * (n - alpha));
     end
 end
-for n = 1:M
-    W(n) = 1;
-end
 
-h = hd.*W;
-disp(h,'Filter Coefficients are')
-[hzm,fr]= frmag (h,256) ;
-subplot(2 ,1 ,1)
-plot(2*fr, hzm)
-xlabel( ' Normalized Digital Frequency w');
-ylabel( 'Magnitude ');
-title( ' Frequency Response of FIR LPF using Rectangular Window ')
+w = ones(1, N);      
 
-hzm_dB = 20* log10 (hzm);
-subplot (2 ,1 ,2);
-plot(2*fr , hzm_dB);
-xlabel( ' Normalized Digital Frequency W' );
-ylabel( 'Magnityde in dB')
-title('Frequency Response of FIR LPF using Rectangular Window');
+h = hd .* w;         
 
+[H, w_freq] = frmag(h, 256); 
 
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
 
 # OUTPUT: 
+<img width="752" height="717" alt="image" src="https://github.com/user-attachments/assets/6d251f7b-9aaf-44f7-88b3-bdc9663b7dbe" />
 
-<img width="752" height="717" alt="image" src="https://github.com/user-attachments/assets/9188a417-634e-48fc-92d2-9996a65a27b2" />
+
 
 # RESULT: 
 
@@ -57,8 +58,45 @@ PC installed with SCILAB.
 
 # PROGRAM: 
 
+clc;
+clear;
+close;
+
+N = 21;               
+wc = %pi / 2;         
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = 1 - (wc / %pi);
+    else
+        hd(n+1) = -sin(wc * (n - alpha)) / (%pi * (n - alpha));
+    end
+end
+
+w = ones(1, N);      
+
+h = hd .* w;         
+
+[H, w_freq] = frmag(h, 256); 
+
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
 
 # OUTPUT: 
+<img width="755" height="722" alt="image" src="https://github.com/user-attachments/assets/04eae4d7-0c6e-42e5-8cd9-d9fea94e127e" />
+
 
 
 # RESULT: 
@@ -71,8 +109,46 @@ PC installed with SCILAB.
 
 # PROGRAM: 
 
+clc;
+clear;
+close;
+
+N = 21;               
+wc1 = %pi / 4;        
+wc2 = 3 * %pi / 4;    
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = (wc2 - wc1) / %pi;
+    else
+        hd(n+1) = (sin(wc2 * (n - alpha)) - sin(wc1 * (n - alpha))) / (%pi * (n - alpha));
+    end
+end
+
+w = ones(1, N);      
+
+h = hd .* w;         
+
+[H, w_freq] = frmag(h, 256); 
+
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
 
 # OUTPUT: 
+<img width="962" height="832" alt="image" src="https://github.com/user-attachments/assets/65dd3317-5eed-4dea-b7fc-6e9788486749" />
+
 
 
 # RESULT: 
@@ -85,8 +161,46 @@ PC installed with SCILAB.
 
 # PROGRAM: 
 
+clc;
+clear;
+close;
+
+N = 21;               
+wc1 = %pi / 4;        
+wc2 = 3 * %pi / 4;    
+alpha = (N - 1) / 2;  
+
+hd = zeros(1, N);
+for n = 0 : N-1
+    if n == alpha then
+        hd(n+1) = 1 - ((wc2 - wc1) / %pi);
+    else
+        hd(n+1) = (sin(wc1 * (n - alpha)) - sin(wc2 * (n - alpha))) / (%pi * (n - alpha));
+    end
+end
+
+w = ones(1, N);      
+
+h = hd .* w;         
+
+[H, w_freq] = frmag(h, 256); 
+
+figure;
+subplot(2, 1, 1);
+plot2d3(0:N-1, h);          
+plot(0:N-1, h, 'ro');       
+xtitle('Impulse Response', 'n', 'h(n)');
+xgrid(1);
+
+subplot(2, 1, 2);
+H_dB = 20 * log10(H);       
+plot(w_freq, H_dB);
+xtitle('Magnitude Response', 'Normalized Frequency', 'Magnitude (dB)');
+xgrid(1);
 
 # OUTPUT: 
+
+<img width="952" height="797" alt="image" src="https://github.com/user-attachments/assets/ce725193-a719-426f-9d1f-35e8820cf015" />
 
 
 # RESULT: 
